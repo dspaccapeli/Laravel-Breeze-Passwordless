@@ -6,6 +6,7 @@ namespace App\Models;
  * Uncommented the MustVerifyEmail interface and added the implements to the User class
  * to enable email verification from the auth/verify-email route
  */
+use App\Notifications\VerifyEmailWithPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,6 +15,21 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
+
+    /**
+     * Get the user's password for the login and registration flow.
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+    /**
+     * Override the standard email verification notification
+     */ 
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailWithPassword);
+    }
 
     /**
      * The attributes that are mass assignable.
@@ -45,7 +61,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return [
             'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            // 'password' => 'hashed', // This is commented, otherwise $user->update(['password'=>'X']) will hash 'X'
         ];
     }
 }

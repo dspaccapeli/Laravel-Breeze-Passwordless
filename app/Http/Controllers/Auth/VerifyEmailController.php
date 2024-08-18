@@ -24,16 +24,16 @@ class VerifyEmailController extends Controller
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
         /*
-         * The URL is signed and checked via middleware
+         * The URL is signed and checked via 'signed' middleware and the custom Request
          * we can think that if we are at this stage the request is secure
          * possibly revisit later
+         * This shouldn't be needed because it should fail in the request
+         * if (!$user) {
+         *  abort(404, 'User not found');
+         * }
         */
-        $user = User::findOrFail($request->route('id'));
-
-        if (!$user) {
-            abort(404, 'User not found');
-        }
-
+        $user = User::find($request->route('id'));
+        
         if ($user->hasVerifiedEmail()) {
             return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
         }

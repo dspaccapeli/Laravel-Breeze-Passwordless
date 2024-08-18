@@ -42,7 +42,7 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Str::random(60), // I don't hash it because I want to use the field password as one-time login
+            'password' => Str::random(64), // I don't hash it because I want to use the field password as one-time login
             // 'password' => Hash::make($request->password),
         ]);
 
@@ -51,10 +51,6 @@ class RegisteredUserController extends Controller
         // Auth::login($user);
 
         // return redirect(route('dashboard', absolute: false));
-        return redirect(route('verification.notice', 
-            parameters: [
-                'email' => $request->email,
-            ], 
-            absolute: false));
+        return redirect(route('verification.notice', absolute: false))->with('email', $request->email);
     }
 }

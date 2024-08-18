@@ -22,6 +22,10 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
 
+    Route::get('/login/{id}/{hash}', [AuthenticatedSessionController::class, 'verifyLogin'])
+                ->middleware(['signed', 'throttle:6,1'])
+                ->name('login.verify');
+
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 
     Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
@@ -36,7 +40,7 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.store');
 
-                /* 
+    /* 
     * Moving the email verification routes to the guest middleware group, 
     * because I want to be able to complete the register without being verified
     */

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\User;
 
 class EmailVerificationRequest extends FormRequest
 {
@@ -11,7 +12,10 @@ class EmailVerificationRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $user = User::findOrFail($this->route('id'));
+        $password = $this->query('password');
+
+        return $user && $password === $user->password;
     }
 
     /**

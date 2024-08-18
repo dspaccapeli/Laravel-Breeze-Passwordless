@@ -13,8 +13,8 @@
         <form method="POST" action="{{ route('verification.send') }}">
             @csrf
             
-            @if (request('email'))
-                <input type="hidden" name="email" value="{{ request('email') }}">
+            @if (session('email'))
+                <input type="hidden" name="email" value="{{ session('email') }}">
             @endif
 
             <div>
