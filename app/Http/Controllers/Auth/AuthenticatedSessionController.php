@@ -65,6 +65,7 @@ class AuthenticatedSessionController extends Controller
         }
         
         Auth::login($user);
+        
         $user->update(['password' => null]);
 
         $request->session()->regenerate();
