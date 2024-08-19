@@ -35,7 +35,7 @@ class VerifyEmailController extends Controller
         $user = User::find($request->route('id'));
         
         if ($user->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+            return redirect()->intended(route('app', absolute: false).'?verified=1');
         }
 
         if ($user->markEmailAsVerified()) {
@@ -45,6 +45,6 @@ class VerifyEmailController extends Controller
         Auth::login($user);
         $user->update(['password' => null]);
 
-        return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        return redirect()->intended(route('app', absolute: false).'?verified=1');
     }
 }

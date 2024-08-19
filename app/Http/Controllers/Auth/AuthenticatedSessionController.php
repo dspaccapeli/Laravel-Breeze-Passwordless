@@ -65,12 +65,12 @@ class AuthenticatedSessionController extends Controller
         }
         
         Auth::login($user);
-        
+
         $user->update(['password' => null]);
 
         $request->session()->regenerate();
         
-        return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('app', absolute: false));
     }
     
     /**

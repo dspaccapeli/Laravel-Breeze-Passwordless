@@ -13,12 +13,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     /*
-     * Brought in also the dashboard view because I want also the other routes 
+     * Brought in also the app view because I want also the other routes 
      * to be protected by verified middleware
      */
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/app', function () {
+        return view('app');
+    })->name('app');
 });
 
 require __DIR__.'/auth.php';
