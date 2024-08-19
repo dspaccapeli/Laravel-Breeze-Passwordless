@@ -49,6 +49,13 @@
                     </header>
 
                     <main class="mt-6">
+                        @if (session('status'))
+                            <div x-data="{ show: true }" x-init="setTimeout(() => show = false, 5000)" x-show="show" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                                    <span class="block sm:inline">{{ session('status') }}</span>
+                                </div>
+                            </div>
+                        @endif
                         Main app
                     </main>
 
